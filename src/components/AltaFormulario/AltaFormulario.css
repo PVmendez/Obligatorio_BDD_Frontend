@@ -28,9 +28,8 @@ form {
   }
   
   /* Estilo para el botón de enviar */
-  form button {
+  .form-button {
     background-color: #007bff;
-    color: #fff;
     padding: 10px 20px;
     border: none;
     border-radius: 3px;
@@ -38,7 +37,7 @@ form {
   }
   
   /* Estilo para el botón de enviar al pasar el mouse */
-  form button:hover {
+  .form-button:hover {
     background-color: #0056b3;
   }
   
