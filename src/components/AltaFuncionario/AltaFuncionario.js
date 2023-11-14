@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AltaFormulario.css';
+import './AltaFuncionario.css';
 
 function AltaFuncionario() {
   const [domicilio, setDomicilio] = useState('');
@@ -45,7 +45,7 @@ function AltaFuncionario() {
         <label>
           Fecha de Nacimiento:
           <input
-            type="text"
+            type="date"
             value={fechaNacimiento}
             onChange={(e) => setFechaNacimiento(e.target.value)}
           />

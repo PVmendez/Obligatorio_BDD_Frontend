@@ -1,6 +1,6 @@
 import './App.css';
 import Formulario from './components/Formulario/Formulario';
-import AltaFormulario from './components/AltaFormulario/AltaFormulario';
+import AltaFuncionario from './components/AltaFuncionario/AltaFuncionario';
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/formulario" element={<Formulario/>} />
-          <Route path="/altaFormulario" element={<AltaFormulario/>} />
+          <Route path="/altaFuncionario" element={<AltaFuncionario/>} />
         </Routes>
       </BrowserRouter>
     </div>
