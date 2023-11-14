@@ -10,6 +10,17 @@ export const getUsers = async () => {
   }
 };
 
+export const getUser = async (ci) => {
+  try {
+    const body = {"Ci":ci}
+    const user = await api.get("/user",body);
+    return user.data;
+  } catch (error) {
+    console.error("Error al obtener el usuario:", error);
+    throw error;
+  }
+};
+
 export const createUser = async (body) => {
   try {
     await api.post("/users", body);

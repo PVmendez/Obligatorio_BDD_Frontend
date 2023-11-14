@@ -1,6 +1,7 @@
 import "./App.css";
 import Formulario from "./components/Formulario/Formulario";
 import AltaFormulario from "./components/AltaFormulario/AltaFormulario";
+import Actualizado from "./components/Actualizado/Actualizado";
 import AdminPage from "./components/AdminPage/AdminPage";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
@@ -32,7 +33,14 @@ function App() {
               isAuthenticated() ? <AltaFormulario /> : <Navigate to="/login" />
             }
           />
+          <Route
+            path="/actualizado"
+            element={
+              isAuthenticated() ? <Actualizado /> : <Navigate to="/" />
+            }
+          />
         </Routes>
+        
       </BrowserRouter>
     </div>
   );
