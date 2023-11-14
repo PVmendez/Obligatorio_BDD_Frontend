@@ -1,93 +1,137 @@
-import React, { useState } from 'react';
-import './AltaFormulario.css';
+import React, { useEffect, useState } from "react";
+import "./AltaFormulario.css";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function AltaFuncionario() {
-  const [domicilio, setDomicilio] = useState('');
-  const [correo, setCorreo] = useState('');
-  const [telefono, setTelefono] = useState('');
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [domicilio, setDomicilio] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [comprobante, setComprobante] = useState("");
-  const [isChecked, setIsChecked] = useState(false);
-  // Otros campos y estados necesarios
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Aquí puedes enviar los datos al servidor o realizar las validaciones necesarias
-  };
+  const MySwal = withReactContent(Swal);
+
+  const campos = [
+    { label: "CI", state: ci, setState: setCi, type: "text" },
+    {
+      label: "Nombre Completo",
+      state: nombre,
+      setState: setNombre,
+      type: "text",
+    },
+    {
+      label: "Fecha de Nacimiento",
+      state: fechaNacimiento,
+      setState: setFechaNacimiento,
+      type: "text",
+    },
+    {
+      label: "Domicilio",
+      state: domicilio,
+      setState: setDomicilio,
+      type: "text",
+    },
+    {
+      label: "Correo Electronico",
+      state: correo,
+      setState: setCorreo,
+      type: "text",
+    },
+    { label: "Teléfono", state: telefono, setState: setTelefono, type: "text" },
+    {
+      label: "Carné de Salud",
+      state: isChecked,
+      setState: setIsChecked,
+      type: "checkbox",
+    },
+    {
+      label: "Fecha de Vencimiento",
+      state: fechaVencimiento,
+      setState: setFechaVencimiento,
+      type: "date",
+    },
+    {
+      label: "Comprobante",
+      state: comprobante,
+      setState: setComprobante,
+      type: "file",
+    },
+  ];
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const mostrarModal = async () => {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Tu cedula no se encuentra registrada",
+      confirmButtonText: "Registrate",
+    });
+  };
+
+  useEffect(() => {
+    mostrarModal();
+  }, []);
+
   return (
     <div>
       <h2>Alta de Funcionario</h2>
       <form onSubmit={handleSubmit}>
-        <label>
-          CI:
-          <input
-            type="text"
-            value={ci}
-            onChange={(e) => setCi(e.target.value)}
-          />
-        </label>
-        <label>
-          Nombre Completo:
-          <input
-            type="text"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-          />
-        </label>
-        <label>
-          Fecha de Nacimiento:
-          <input
-            type="text"
-            value={fechaNacimiento}
-            onChange={(e) => setFechaNacimiento(e.target.value)}
-          />
-        </label>
-        <label>
-          Domicilio:
-          <input type="text" value={domicilio} onChange={(e) => setDomicilio(e.target.value)} />
-        </label>
-        <label>
-          Correo Electronico:
-          <input type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-        </label>
-        <label>
-          Teléfono:
-          <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
-        </label>
-        <label>
-           Carné de Salud:
-          <input type="checkbox" checked={isChecked} onChange={handleToggle} />
-        </label>
-
-        {isChecked ? (
+        {campos
+          .filter(
+            (campo) =>
+              campo.label !== "Fecha de Vencimiento" &&
+              campo.label !== "Comprobante"
+          )
+          .map((campo, index) => (
+            <label key={index}>
+              {campo.label}:
+              {campo.type === "checkbox" ? (
+                <input
+                  type={campo.type}
+                  checked={campo.state}
+                  onChange={handleToggle}
+                />
+              ) : (
+                <input
+                  type={campo.type}
+                  value={campo.state}
+                  onChange={(e) => campo.setState(e.target.value)}
+                />
+              )}
+            </label>
+          ))}
+        {isChecked && (
           <div>
-            {" "}
-            <label>
-              Fecha de Vencimiento:
-              <input
-                type="date"
-                value={fechaVencimiento}
-                onChange={(e) => setFechaVencimiento(e.target.value)}
-              />
-            </label>
-            <label>
-              Comprobante:
-              <input
-                type="file"
-                value={comprobante}
-                onChange={(e) => setComprobante(e.target.value)}
-              />
-            </label>
+            {campos
+              .filter(
+                (campo) =>
+                  campo.label === "Fecha de Vencimiento" ||
+                  campo.label === "Comprobante"
+              )
+              .map((campo, index) => (
+                <label key={index}>
+                  {campo.label}:
+                  <input
+                    type={campo.type}
+                    value={campo.state}
+                    onChange={(e) => campo.setState(e.target.value)}
+                  />
+                </label>
+              ))}
           </div>
-        ) : ''}
+        )}
         <button type="submit" className="form-button">
           Guardar
         </button>

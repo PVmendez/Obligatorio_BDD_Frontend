@@ -8,14 +8,6 @@ form {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  /* Estilo para las etiquetas del formulario */
-  form label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  
-  /* Estilo para los campos de entrada de texto */
   form input[type="text"],
   form input[type="email"],
   form input[type="date"] {
