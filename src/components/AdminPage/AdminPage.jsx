@@ -3,7 +3,7 @@ import { getUsers } from "../../services/userServices";
 
 export default function AdminPage() {
   const [users, setUsers] = useState([]);
-  const columns = Object.keys(users[0]); 
+  const columns = Object.keys(users[0] || {}); 
 
   useEffect(() => {
     const fetchUsers = async () => {
