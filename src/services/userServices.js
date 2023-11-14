@@ -1,8 +1,8 @@
-import axios from "axios";
+import { api } from "../utils/api";
 
 export const getUsers = async () => {
   try {
-    const users = await axios.get("http://localhost:8080/users");
+    const users = await api.get("/users");
     return users.data;
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
@@ -12,7 +12,7 @@ export const getUsers = async () => {
 
 export const createUser = async (body) => {
   try {
-    await axios.post("http://localhost:8080/users", body);
+    await api.post("/users", body);
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
     throw error;

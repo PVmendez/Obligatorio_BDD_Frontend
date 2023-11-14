@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AltaFormulario.css";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 function AltaFuncionario() {
   const [ci, setCi] = useState("");
@@ -13,8 +12,6 @@ function AltaFuncionario() {
   const [isChecked, setIsChecked] = useState(false);
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [comprobante, setComprobante] = useState("");
-
-  const MySwal = withReactContent(Swal);
 
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text" },
