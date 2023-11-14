@@ -1,15 +1,30 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { login } from "../../services/loginServices";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    localStorage.setItem("username", username);
-    setIsLoggedIn(true);
-    window.location.replace("http://localhost:3000/formulario");
+  const handleLogin = async () => {
+    try {
+      const response = await login(username, password);
+      if (response) {
+        localStorage.setItem("username", response.username);
+        window.location.replace("http://localhost:3000/formulario");
+        setError("");
+      }
+    } catch (error) {
+      setError("Credenciales incorrectas. Por favor, intenta de nuevo.");
+    }
+  };
+
+  const errorStyle = {
+    color: "red",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "15px",
   };
 
   return (
@@ -38,6 +53,7 @@ const Login = () => {
           Iniciar sesión
         </button>
       </form>
+      {error && <p style={errorStyle}>{error}</p>}
     </div>
   );
 };
