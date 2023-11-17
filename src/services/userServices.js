@@ -18,3 +18,12 @@ export const createUser = async (body) => {
     throw error;
   }
 };
+
+export const postUser = async (body) => {
+  try {
+    await axios.post("http://localhost:8080/user", body);
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    throw error;
+  }
+};

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./AltaFormulario.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { postUser } from "../../services/userServices";
 
 function AltaFuncionario() {
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [domicilio, setDomicilio] = useState("");
   const [correo, setCorreo] = useState("");
@@ -19,16 +21,22 @@ function AltaFuncionario() {
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text" },
     {
-      label: "Nombre Completo",
+      label: "Nombre",
       state: nombre,
       setState: setNombre,
+      type: "text",
+    },
+    {
+      label: "Apellido",
+      state: apellido,
+      setState: setApellido,
       type: "text",
     },
     {
       label: "Fecha de Nacimiento",
       state: fechaNacimiento,
       setState: setFechaNacimiento,
-      type: "text",
+      type: "date",
     },
     {
       label: "Domicilio",
@@ -69,6 +77,21 @@ function AltaFuncionario() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const birthDateFormated = new Date(fechaNacimiento);
+    const expirationDateFormated = new Date(fechaVencimiento);
+    const body = {
+      'Ci': ci,
+      'Name': nombre,
+      'Surname': apellido,
+      'Birthdate': birthDateFormated,
+      'Location': domicilio,
+      'Mail': correo,
+      'Phone': telefono,
+      'ItHas': isChecked,
+      'ExpirationDate': expirationDateFormated,
+      'Receipt': comprobante 
+    };
+    postUser(body);
   };
 
   const mostrarModal = async () => {
