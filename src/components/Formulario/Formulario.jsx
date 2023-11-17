@@ -57,6 +57,7 @@ function Formulario() {
       try {
         const userData = await getUsers();
         setUsers(userData);
+        
       } catch (error) {
         console.error("Error al obtener los usuarios:", error);
       }
