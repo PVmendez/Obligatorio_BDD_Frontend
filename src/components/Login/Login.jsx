@@ -1,15 +1,39 @@
 import React, { useState } from "react";
 import "./Login.css";
+import { login } from "../../services/loginServices";
+import { getUsers } from "../../services/userServices";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = () => {
-    localStorage.setItem("username", username);
-    setIsLoggedIn(true);
-    window.location.replace("http://localhost:3000/formulario");
+  const handleLogin = async () => {
+    try {
+      await login(username, password);
+      const users = await getUsers();
+
+      const userFound = users.find((user) => {
+        return user.LogId.toString() === username;
+      });
+
+      if (userFound && userFound.Actualizo === 1)
+        window.location.replace("http://localhost:3000/404");
+      else {
+        localStorage.setItem("username", username);
+        window.location.replace("http://localhost:3000/formulario");
+        setError("");
+      }
+    } catch (error) {
+      setError("Credenciales incorrectas. Por favor, intenta de nuevo.");
+    }
+  };
+
+  const errorStyle = {
+    color: "red",
+    display: "flex",
+    justifyContent: "center",
+    marginTop: "15px",
   };
 
   return (
@@ -37,7 +61,19 @@ const Login = () => {
         <button className="button" type="button" onClick={handleLogin}>
           Iniciar sesión
         </button>
+        <a
+          href="/register"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "15px",
+            color: "#008AFF",
+          }}
+        >
+          ¿No tienes cuenta? Crea una aquí.
+        </a>
       </form>
+      {error && <p style={errorStyle}>{error}</p>}
     </div>
   );
 };
