@@ -1,22 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { getUsers } from "../../services/userServices";
+import React from "react";
 
-export default function AdminPage() {
-  const [users, setUsers] = useState([]);
+export default function AdminPage(props) {
+  const users = props.users;
   const columns = Object.keys(users[0] || {}); 
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const userData = await getUsers();
-        setUsers(userData);
-      } catch (error) {
-        console.error("Error al obtener los usuarios:", error);
-      }
-    };
-
-    fetchUsers();
-  }, []);
 
   return (
     <div className="overflow-x-auto p-5">
