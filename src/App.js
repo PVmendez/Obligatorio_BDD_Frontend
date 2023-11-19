@@ -29,9 +29,12 @@ function App() {
     const lastExecutionDate = localStorage.getItem('lastExecutionDate');
     const currentDate = new Date();
 
+    const message1 = "Recurden que todos los funcionarios estan obligados a completar el formulario de actualizacion de datos";
+    const message2 = "Recordar sacar fecha para renovar su carne de salud";
+
     if (!lastExecutionDate || isOneDayAgo(new Date(lastExecutionDate), currentDate)) {
       users.forEach((user) => {
-        sendMail(user.Email)
+        sendMail(user.Email, user.Actualizo === 0 ? message1 : message2)
       });
       localStorage.setItem('lastExecutionDate', currentDate.toString());
     }

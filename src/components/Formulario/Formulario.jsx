@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Formulario.css";
 import { createUser, getUsers } from "../../services/userServices";
+import Modal from "react-modal";
+import CalendarComponent from "../Calendar/CalendarComponent";
 
 function Formulario() {
   const [users, setUsers] = useState([]);
@@ -11,8 +13,9 @@ function Formulario() {
   const [comprobante, setComprobante] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const storedUsername = localStorage.getItem('username');
+  const storedUsername = localStorage.getItem("username");
 
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text", pattern: "\\d*" },
@@ -57,7 +60,6 @@ function Formulario() {
       try {
         const userData = await getUsers();
         setUsers(userData);
-        
       } catch (error) {
         console.error("Error al obtener los usuarios:", error);
       }
@@ -70,19 +72,23 @@ function Formulario() {
       ci !== "" &&
       nombre !== "" &&
       fechaNacimiento !== "" &&
-      (isChecked ? (fechaVencimiento !== "" && comprobante !== "") : true);
+      (isChecked ? fechaVencimiento !== "" && comprobante !== "" : true);
 
     setIsButtonDisabled(!allFieldsFilled);
   }, [ci, nombre, fechaNacimiento, isChecked, fechaVencimiento, comprobante]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const foundUser = users.find((user) => {
-      return user.Ci.toString() === ci;
-    });
-    if (!foundUser)
-      window.location.replace("http://localhost:3000/alta-formulario");
-    else await createUser(foundUser);
+    if (!isChecked) {
+      setModalIsOpen(true);
+    } else {
+      const foundUser = users.find((user) => {
+        return user.Ci.toString() === ci;
+      });
+      if (!foundUser)
+        window.location.replace("http://localhost:3000/alta-formulario");
+      else await createUser(foundUser);
+    }
   };
 
   const handleToggle = () => {
@@ -141,10 +147,20 @@ function Formulario() {
               ))}
           </div>
         )}
-        <button type="submit" className="form-button" disabled={isButtonDisabled}>
+        <button
+          type="submit"
+          className="form-button"
+          disabled={isButtonDisabled}
+        >
           Guardar
         </button>
       </form>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Detalles y Reserva"
+        appElement={document.getElementById('root')}
+      ><CalendarComponent /></Modal>
     </div>
   );
 }
