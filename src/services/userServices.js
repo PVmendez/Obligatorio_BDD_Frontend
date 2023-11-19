@@ -29,7 +29,16 @@ export const createUser = async (body) => {
   }
 };
 
-export const sendMail = async (destinatario, mensaje) => {
+export const postUser = async (body) => {
+  try {
+    await api.post("/employee", body);
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    throw error;
+  }
+};
+
+export const sendMail = async (destinatario) => {
   const body = {
     destinatario,
     mensaje,
