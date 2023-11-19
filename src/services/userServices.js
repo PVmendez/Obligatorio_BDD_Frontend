@@ -31,7 +31,7 @@ export const createUser = async (body) => {
 
 export const postUser = async (body) => {
   try {
-    await axios.post("http://localhost:8080/user", body);
+    await api.post("/employee", body);
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
     throw error;
@@ -41,6 +41,7 @@ export const postUser = async (body) => {
 export const sendMail = async (destinatario) => {
   const body = {
     destinatario,
+    mensaje,
   };
   try {
     await api.post("/mail", body);

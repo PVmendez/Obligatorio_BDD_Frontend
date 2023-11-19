@@ -14,6 +14,7 @@ const Logout = () => {
     margin: "5px",
     padding: "2px",
     border: "1px solid black",
+    position: "absolute"
   };
 
   return (
