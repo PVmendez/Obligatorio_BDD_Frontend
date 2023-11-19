@@ -38,7 +38,7 @@ export const postUser = async (body) => {
   }
 };
 
-export const sendMail = async (destinatario) => {
+export const sendMail = async (destinatario, mensaje) => {
   const body = {
     destinatario,
     mensaje,
