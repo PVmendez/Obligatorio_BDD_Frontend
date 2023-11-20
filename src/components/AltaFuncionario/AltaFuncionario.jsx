@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./AltaFormulario.css";
+import "./AltaFuncionario.css";
 import Swal from "sweetalert2";
 import { postUser } from "../../services/userServices";
 
@@ -12,6 +12,7 @@ function AltaFuncionario() {
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [fechaEmision, setFechaEmision] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [comprobante, setComprobante] = useState("");
 
@@ -55,6 +56,12 @@ function AltaFuncionario() {
       type: "checkbox",
     },
     {
+      label: "Fecha de Emision",
+      state: fechaEmision,
+      setState: setFechaEmision,
+      type: "date",
+    },
+    {
       label: "Fecha de Vencimiento",
       state: fechaVencimiento,
       setState: setFechaVencimiento,
@@ -76,6 +83,7 @@ function AltaFuncionario() {
     e.preventDefault();
     const birthDateFormated = new Date(fechaNacimiento);
     const expirationDateFormated = new Date(fechaVencimiento);
+    const issueDateFormated = new Date(fechaEmision);
     const body = {
       'Ci': ci,
       'Name': nombre,
@@ -85,6 +93,7 @@ function AltaFuncionario() {
       'Mail': correo,
       'Phone': telefono,
       'ItHas': isChecked,
+      'IssueDate': issueDateFormated,
       'ExpirationDate': expirationDateFormated,
       'Receipt': comprobante 
     };
@@ -111,6 +120,7 @@ function AltaFuncionario() {
         {campos
           .filter(
             (campo) =>
+              campo.label !== "Fecha de Emision" &&
               campo.label !== "Fecha de Vencimiento" &&
               campo.label !== "Comprobante"
           )
@@ -137,6 +147,7 @@ function AltaFuncionario() {
             {campos
               .filter(
                 (campo) =>
+                  campo.label === "Fecha de Emision" ||
                   campo.label === "Fecha de Vencimiento" ||
                   campo.label === "Comprobante"
               )

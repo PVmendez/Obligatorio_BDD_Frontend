@@ -1,6 +1,5 @@
 import "./App.css";
 import Formulario from "./components/Formulario/Formulario";
-import AltaFormulario from "./components/AltaFormulario/AltaFormulario";
 import AdminPage from "./components/AdminPage/AdminPage";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
@@ -10,6 +9,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./middleware/tokenVerification";
 import { useEffect, useState } from "react";
 import { getUserTable, sendMail } from "./services/userServices";
+import AltaFuncionario from "./components/AltaFuncionario/AltaFuncionario";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -65,9 +65,9 @@ function App() {
             }
           />
           <Route
-            path="/alta-formulario"
+            path="/alta-funcionario"
             element={
-              isAuthenticated() ? <AltaFormulario /> : <Navigate to="/login" />
+              isAuthenticated() ? <AltaFuncionario /> : <Navigate to="/login" />
             }
           />
           <Route path="*" element={<Error404 />} />
