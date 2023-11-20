@@ -12,7 +12,7 @@ const Login = () => {
     try {
       await login(username, password);
       const users = await getUsers();
-
+      
       const userFound = users.find((user) => {
         return user.LogId.toString() === username;
       });

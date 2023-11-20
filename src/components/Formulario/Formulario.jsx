@@ -9,6 +9,7 @@ function Formulario() {
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [fechaEmision, setFechaEmision] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [comprobante, setComprobante] = useState("");
   const [isChecked, setIsChecked] = useState(false);
@@ -38,6 +39,13 @@ function Formulario() {
       state: isChecked,
       setState: setIsChecked,
       type: "checkbox",
+    },
+    {
+      label: "Fecha de Emision",
+      state: fechaEmision,
+      setState: setFechaEmision,
+      type: "date",
+      pattern: "\\d{4}-\\d{2}-\\d{2}",
     },
     {
       label: "Fecha de Vencimiento",
@@ -71,11 +79,12 @@ function Formulario() {
     const allFieldsFilled =
       ci !== "" &&
       nombre !== "" &&
+      fechaEmision !== "" &&
       fechaNacimiento !== "" &&
-      (isChecked ? fechaVencimiento !== "" && comprobante !== "" : true);
+      (isChecked ? fechaVencimiento !== "" && comprobante !== "" && fechaEmision !== "" : true);
 
     setIsButtonDisabled(!allFieldsFilled);
-  }, [ci, nombre, fechaNacimiento, isChecked, fechaVencimiento, comprobante]);
+  }, [ci, nombre, fechaNacimiento, isChecked,fechaEmision, fechaVencimiento, comprobante]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +95,7 @@ function Formulario() {
         return user.Ci.toString() === ci;
       });
       if (!foundUser)
-        window.location.replace("http://localhost:3000/alta-formulario");
+        window.location.replace("http://localhost:3000/alta-funcionario");
       else await createUser(foundUser);
     }
   };
@@ -102,6 +111,7 @@ function Formulario() {
         {campos
           .filter(
             (campo) =>
+              campo.label !== "Fecha de Emision" &&
               campo.label !== "Fecha de Vencimiento" &&
               campo.label !== "Comprobante"
           )
@@ -130,6 +140,7 @@ function Formulario() {
             {campos
               .filter(
                 (campo) =>
+                  campo.label === "Fecha de Emision" ||
                   campo.label === "Fecha de Vencimiento" ||
                   campo.label === "Comprobante"
               )
