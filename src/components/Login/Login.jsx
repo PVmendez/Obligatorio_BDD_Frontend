@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { login } from "../../services/loginServices";
+import { getUsers } from "../../services/userServices";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -9,9 +10,17 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await login(username, password);
-      if (response) {
-        localStorage.setItem("username", response.username);
+      await login(username, password);
+      const users = await getUsers();
+      
+      const userFound = users.find((user) => {
+        return user.LogId.toString() === username;
+      });
+
+      if (userFound && userFound.Actualizo === 1)
+        window.location.replace("http://localhost:3000/404");
+      else {
+        localStorage.setItem("username", username);
         window.location.replace("http://localhost:3000/formulario");
         setError("");
       }
@@ -52,6 +61,17 @@ const Login = () => {
         <button className="button" type="button" onClick={handleLogin}>
           Iniciar sesión
         </button>
+        <a
+          href="/register"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "15px",
+            color: "#008AFF",
+          }}
+        >
+          ¿No tienes cuenta? Crea una aquí.
+        </a>
       </form>
       {error && <p style={errorStyle}>{error}</p>}
     </div>

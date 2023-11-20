@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from "react";
 import "./Formulario.css";
 import { createUser, getUsers } from "../../services/userServices";
+import Modal from "react-modal";
+import CalendarComponent from "../Calendar/CalendarComponent";
 
 function Formulario() {
   const [users, setUsers] = useState([]);
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
+  const [fechaEmision, setFechaEmision] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [comprobante, setComprobante] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const storedUsername = localStorage.getItem('username');
+  const storedUsername = localStorage.getItem("username");
 
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text", pattern: "\\d*" },
@@ -35,6 +39,13 @@ function Formulario() {
       state: isChecked,
       setState: setIsChecked,
       type: "checkbox",
+    },
+    {
+      label: "Fecha de Emision",
+      state: fechaEmision,
+      setState: setFechaEmision,
+      type: "date",
+      pattern: "\\d{4}-\\d{2}-\\d{2}",
     },
     {
       label: "Fecha de Vencimiento",
@@ -68,20 +79,25 @@ function Formulario() {
     const allFieldsFilled =
       ci !== "" &&
       nombre !== "" &&
+      fechaEmision !== "" &&
       fechaNacimiento !== "" &&
-      (isChecked ? (fechaVencimiento !== "" && comprobante !== "") : true);
+      (isChecked ? fechaVencimiento !== "" && comprobante !== "" && fechaEmision !== "" : true);
 
     setIsButtonDisabled(!allFieldsFilled);
-  }, [ci, nombre, fechaNacimiento, isChecked, fechaVencimiento, comprobante]);
+  }, [ci, nombre, fechaNacimiento, isChecked,fechaEmision, fechaVencimiento, comprobante]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const foundUser = users.find((user) => {
-      return user.Ci.toString() === ci;
-    });
-    if (!foundUser)
-      window.location.replace("http://localhost:3000/alta-formulario");
-    else await createUser(foundUser);
+    if (!isChecked) {
+      setModalIsOpen(true);
+    } else {
+      const foundUser = users.find((user) => {
+        return user.Ci.toString() === ci;
+      });
+      if (!foundUser)
+        window.location.replace("http://localhost:3000/alta-funcionario");
+      else await createUser(foundUser);
+    }
   };
 
   const handleToggle = () => {
@@ -95,6 +111,7 @@ function Formulario() {
         {campos
           .filter(
             (campo) =>
+              campo.label !== "Fecha de Emision" &&
               campo.label !== "Fecha de Vencimiento" &&
               campo.label !== "Comprobante"
           )
@@ -123,6 +140,7 @@ function Formulario() {
             {campos
               .filter(
                 (campo) =>
+                  campo.label === "Fecha de Emision" ||
                   campo.label === "Fecha de Vencimiento" ||
                   campo.label === "Comprobante"
               )
@@ -140,10 +158,20 @@ function Formulario() {
               ))}
           </div>
         )}
-        <button type="submit" className="form-button" disabled={isButtonDisabled}>
+        <button
+          type="submit"
+          className="form-button"
+          disabled={isButtonDisabled}
+        >
           Guardar
         </button>
       </form>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Detalles y Reserva"
+        appElement={document.getElementById('root')}
+      ><CalendarComponent /></Modal>
     </div>
   );
 }

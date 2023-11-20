@@ -1,31 +1,40 @@
 import React, { useEffect, useState } from "react";
-import "./AltaFormulario.css";
+import "./AltaFuncionario.css";
 import Swal from "sweetalert2";
+import { postUser } from "../../services/userServices";
 
 function AltaFuncionario() {
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [domicilio, setDomicilio] = useState("");
   const [correo, setCorreo] = useState("");
   const [telefono, setTelefono] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+  const [fechaEmision, setFechaEmision] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
   const [comprobante, setComprobante] = useState("");
 
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text" },
     {
-      label: "Nombre Completo",
+      label: "Nombre",
       state: nombre,
       setState: setNombre,
+      type: "text",
+    },
+    {
+      label: "Apellido",
+      state: apellido,
+      setState: setApellido,
       type: "text",
     },
     {
       label: "Fecha de Nacimiento",
       state: fechaNacimiento,
       setState: setFechaNacimiento,
-      type: "text",
+      type: "date",
     },
     {
       label: "Domicilio",
@@ -47,6 +56,12 @@ function AltaFuncionario() {
       type: "checkbox",
     },
     {
+      label: "Fecha de Emision",
+      state: fechaEmision,
+      setState: setFechaEmision,
+      type: "date",
+    },
+    {
       label: "Fecha de Vencimiento",
       state: fechaVencimiento,
       setState: setFechaVencimiento,
@@ -66,6 +81,23 @@ function AltaFuncionario() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const birthDateFormated = new Date(fechaNacimiento);
+    const expirationDateFormated = new Date(fechaVencimiento);
+    const issueDateFormated = new Date(fechaEmision);
+    const body = {
+      'Ci': ci,
+      'Name': nombre,
+      'Surname': apellido,
+      'Birthdate': birthDateFormated,
+      'Location': domicilio,
+      'Mail': correo,
+      'Phone': telefono,
+      'ItHas': isChecked,
+      'IssueDate': issueDateFormated,
+      'ExpirationDate': expirationDateFormated,
+      'Receipt': comprobante 
+    };
+    postUser(body);
   };
 
   const mostrarModal = async () => {
@@ -88,6 +120,7 @@ function AltaFuncionario() {
         {campos
           .filter(
             (campo) =>
+              campo.label !== "Fecha de Emision" &&
               campo.label !== "Fecha de Vencimiento" &&
               campo.label !== "Comprobante"
           )
@@ -114,6 +147,7 @@ function AltaFuncionario() {
             {campos
               .filter(
                 (campo) =>
+                  campo.label === "Fecha de Emision" ||
                   campo.label === "Fecha de Vencimiento" ||
                   campo.label === "Comprobante"
               )

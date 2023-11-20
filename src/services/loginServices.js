@@ -14,3 +14,26 @@ export const login = async (logId, password) => {
     throw error;
   }
 };
+
+export const getLogins = async () => {
+  try {
+    const users = await api.get("/login");
+    return users.data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    throw error;
+  }
+};
+
+export const register = async (username, password) => {
+  try {
+    const body = {
+      username,
+      password,
+    };
+    await api.post("/register", body);
+  } catch (error) {
+    console.error("Error al registrar usuario:", error);
+    throw error;
+  }
+};
