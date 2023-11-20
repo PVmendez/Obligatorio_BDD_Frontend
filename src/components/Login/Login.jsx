@@ -10,17 +10,12 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      console.log('primero');
       await login(username, password);
-      console.log('segundo');
       const users = await getUsers();
-      console.log('tercero');
       
       const userFound = users.find((user) => {
         return user.LogId.toString() === username;
       });
-
-      console.log(userFound);
 
       if (userFound && userFound.Actualizo === 1)
         window.location.replace("http://localhost:3000/404");

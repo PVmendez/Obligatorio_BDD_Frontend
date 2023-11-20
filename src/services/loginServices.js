@@ -2,8 +2,6 @@ import { api, setToken } from "../utils/api";
 
 export const login = async (logId, password) => {
   try {
-    
-    console.log(password,logId);
     const response = await api.post("/login", {
       logId,
       password,
