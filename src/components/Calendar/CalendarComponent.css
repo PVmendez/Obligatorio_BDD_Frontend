@@ -5,6 +5,10 @@
     align-items: center;
 }
 
+.main-container h2 {
+    margin: 5px;
+}
+
 .ReactModal__Content {
     height: 50%;
     width: 50%;

@@ -2,7 +2,6 @@ import "./App.css";
 import Formulario from "./components/Formulario/Formulario";
 import AdminPage from "./components/AdminPage/AdminPage";
 import Login from "./components/Login/Login";
-import Logout from "./components/Logout/Logout";
 import Error404 from "./components/404/Error404";
 import Register from "./components/Register/Register";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -10,6 +9,7 @@ import { isAuthenticated } from "./middleware/tokenVerification";
 import { useEffect, useState } from "react";
 import { getUserTable, sendMail } from "./services/userServices";
 import AltaFuncionario from "./components/AltaFuncionario/AltaFuncionario";
+import Navbar from "./components/Navbar/Navbar";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -47,7 +47,6 @@ function App() {
 
   return (
     <div className="App">
-      <Logout></Logout>
       <BrowserRouter>
         <Routes>
           <Route
@@ -73,6 +72,7 @@ function App() {
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>
+      <Navbar></Navbar>
     </div>
   );
 }

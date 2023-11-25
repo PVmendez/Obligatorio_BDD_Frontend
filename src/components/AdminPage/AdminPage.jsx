@@ -1,4 +1,5 @@
 import React from "react";
+import './AdminPage.css';
 
 export default function AdminPage(props) {
   const users = props.users;

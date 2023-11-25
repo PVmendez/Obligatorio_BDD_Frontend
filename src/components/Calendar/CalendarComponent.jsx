@@ -4,15 +4,34 @@ import "react-datepicker/dist/react-datepicker.css";
 import Modal from "react-modal";
 
 import "./CalendarComponent.css";
+import { createReserve, getReserves } from "../../services/reservesServices";
 
 const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(null);
+  const [reserves, setReserves] = useState([]);
   const [reservedDates, setReservedDates] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     Modal.setAppElement("#root");
+    const fetchUsers = async () => {
+      try {
+        const userData = await getReserves();
+        setReserves(userData);
+      } catch (error) {
+        console.error("Error al obtener los usuarios:", error);
+      }
+    };
+    fetchUsers();
   }, []);
+
+  const errorStyle = {
+    color: "red",
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: "25px",
+  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -20,6 +39,10 @@ const CalendarComponent = () => {
   };
 
   const handleReserveClick = () => {
+    const username = localStorage.getItem("username");
+    const hasReserve = reserves.map((reserve) => username === reserve.logId);
+    if (!hasReserve) createReserve({ date: selectedDate, logId: username });
+    else setError("Ya existe una reserva para este usuario.")
     setReservedDates([...reservedDates, selectedDate]);
     setSelectedDate(null);
     setModalIsOpen(false);
@@ -36,7 +59,11 @@ const CalendarComponent = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const result = date >= today || isDateReserved(date);
+    const isExcluded = reserves.some(
+      (reservedDate) => reservedDate.fecha === date.toISOString()
+    );
+
+    const result = date >= today && !isExcluded;
 
     return result;
   };
@@ -71,7 +98,9 @@ const CalendarComponent = () => {
           Cerrar
         </button>
       </Modal>
-      <div></div>
+      <div>
+      {error && <div style={errorStyle}>{error}</div>}
+      </div>
     </div>
   );
 };
