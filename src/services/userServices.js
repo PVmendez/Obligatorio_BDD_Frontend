@@ -10,22 +10,12 @@ export const getUsers = async () => {
   }
 };
 
-<<<<<<< HEAD
-export const getUser = async (ci) => {
-  try {
-    const body = {"Ci":ci}
-    const user = await api.get("/user",body);
-    return user.data;
-  } catch (error) {
-    console.error("Error al obtener el usuario:", error);
-=======
 export const getUserTable = async () => {
   try {
     const users = await api.get("/user-table");
     return users.data;
   } catch (error) {
     console.error("Error al obtener los usuarios:", error);
->>>>>>> feca64a59c35c2a743b59a0049002968e4a4f1aa
     throw error;
   }
 };
@@ -48,7 +38,7 @@ export const postUser = async (body) => {
   }
 };
 
-export const sendMail = async (destinatario) => {
+export const sendMail = async (destinatario, mensaje) => {
   const body = {
     destinatario,
     mensaje,
@@ -57,6 +47,17 @@ export const sendMail = async (destinatario) => {
     await api.post("/mail", body);
   } catch (error) {
     console.error("Error al enviar mail:", error);
+    throw error;
+  }
+};
+
+export const getUserUpdated = async (LogId) => {
+  const body = { LogId };
+  try {
+    const users = await api.get("/employee-updated", body);
+    return users.data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
     throw error;
   }
 };

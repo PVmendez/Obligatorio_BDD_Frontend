@@ -1,14 +1,10 @@
 import "./App.css";
 import Formulario from "./components/Formulario/Formulario";
-<<<<<<< HEAD
-import AltaFormulario from "./components/AltaFormulario/AltaFormulario";
-import Actualizado from "./components/Actualizado/Actualizado";
-=======
->>>>>>> feca64a59c35c2a743b59a0049002968e4a4f1aa
 import AdminPage from "./components/AdminPage/AdminPage";
 import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
 import Error404 from "./components/404/Error404";
+import Actualizado from "./components/Actualizado/Actualizado";
 import Register from "./components/Register/Register";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./middleware/tokenVerification";
@@ -75,16 +71,13 @@ function App() {
               isAuthenticated() ? <AltaFuncionario /> : <Navigate to="/login" />
             }
           />
-<<<<<<< HEAD
           <Route
             path="/actualizado"
             element={
               isAuthenticated() ? <Actualizado /> : <Navigate to="/" />
             }
           />
-=======
           <Route path="*" element={<Error404 />} />
->>>>>>> feca64a59c35c2a743b59a0049002968e4a4f1aa
         </Routes>
         
       </BrowserRouter>
