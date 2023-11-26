@@ -6,28 +6,11 @@ const Logout = () => {
 
   const handleLogout = () => {
     removeToken();
+    localStorage.removeItem("username");
     window.location.replace("http://localhost:3000/login");
   };
 
-  const buttonStyle = {
-    background: "#DC3545",
-    margin: "5px",
-    padding: "2px",
-    border: "1px solid black",
-    position: "absolute"
-  };
-
-  return (
-    <div>
-      {location ? (
-        <button style={buttonStyle} onClick={handleLogout}>
-          Cerrar sesión
-        </button>
-      ) : (
-        ""
-      )}
-    </div>
-  );
+  return <div>{location ? <button onClick={handleLogout}></button> : ""}</div>;
 };
 
 export default Logout;

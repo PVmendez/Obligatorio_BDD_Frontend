@@ -14,7 +14,7 @@ const Login = () => {
       const users = await getUsers();
       
       const userFound = users.find((user) => {
-        return user.LogId.toString() === username;
+        return user.logId ? user.LogId.toString() === username : false;
       });
 
       if (userFound && userFound.Actualizo === 1)

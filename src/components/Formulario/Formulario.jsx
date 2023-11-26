@@ -79,21 +79,30 @@ function Formulario() {
     const allFieldsFilled =
       ci !== "" &&
       nombre !== "" &&
-      fechaEmision !== "" &&
       fechaNacimiento !== "" &&
-      (isChecked ? fechaVencimiento !== "" && comprobante !== "" && fechaEmision !== "" : true);
+      (isChecked
+        ? fechaVencimiento !== "" && comprobante !== "" && fechaEmision !== ""
+        : true);
 
     setIsButtonDisabled(!allFieldsFilled);
-  }, [ci, nombre, fechaNacimiento, isChecked,fechaEmision, fechaVencimiento, comprobante]);
+  }, [
+    ci,
+    nombre,
+    fechaNacimiento,
+    isChecked,
+    fechaEmision,
+    fechaVencimiento,
+    comprobante,
+  ]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!isChecked) {
-      setModalIsOpen(true);
-    } else {
-      const foundUser = users.find((user) => {
-        return user.Ci.toString() === ci;
-      });
+    const foundUser = users.find((user) => {
+      return user.Ci.toString() === ci;
+    });
+
+    if (!isChecked && foundUser) setModalIsOpen(true);
+    else {
       if (!foundUser)
         window.location.replace("http://localhost:3000/alta-funcionario");
       else await createUser(foundUser);
@@ -170,8 +179,10 @@ function Formulario() {
         isOpen={modalIsOpen}
         onRequestClose={() => setModalIsOpen(false)}
         contentLabel="Detalles y Reserva"
-        appElement={document.getElementById('root')}
-      ><CalendarComponent /></Modal>
+        appElement={document.getElementById("root")}
+      >
+        <CalendarComponent />
+      </Modal>
     </div>
   );
 }
