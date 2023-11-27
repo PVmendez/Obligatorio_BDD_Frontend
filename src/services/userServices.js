@@ -50,3 +50,14 @@ export const sendMail = async (destinatario, mensaje) => {
     throw error;
   }
 };
+
+export const getUserUpdated = async (LogId) => {
+  const body = { LogId };
+  try {
+    const users = await api.get("/employee-updated", body);
+    return users.data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    throw error;
+  }
+};
