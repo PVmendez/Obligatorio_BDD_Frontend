@@ -8,7 +8,7 @@ import Register from "./components/Register/Register";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./middleware/tokenVerification";
 import { useEffect, useState } from "react";
-import { getUserTable, sendMail } from "./services/userServices";
+import { getUserTable } from "./services/userServices";
 import AltaFuncionario from "./components/AltaFuncionario/AltaFuncionario";
 import Navbar from "./components/Navbar/Navbar";
 
@@ -26,25 +26,8 @@ function App() {
     };
 
     fetchUsers();
-
-    const lastExecutionDate = localStorage.getItem('lastExecutionDate');
-    const currentDate = new Date();
-
-    const message1 = "Recurden que todos los funcionarios estan obligados a completar el formulario de actualizacion de datos";
-    const message2 = "Recordar sacar fecha para renovar su carne de salud";
-
-    if (!lastExecutionDate || isOneDayAgo(new Date(lastExecutionDate), currentDate)) {
-      users.forEach((user) => {
-        sendMail(user.Email, user.Actualizo === 0 ? message1 : message2)
-      });
-      localStorage.setItem('lastExecutionDate', currentDate.toString());
-    }
   }, []);
 
-  const isOneDayAgo = (lastDate, currentDate) => {
-    const oneDayInMillis = 24 * 60 * 60 * 1000;
-    return currentDate - lastDate >= oneDayInMillis;
-  };
 
   return (
     <div className="App">

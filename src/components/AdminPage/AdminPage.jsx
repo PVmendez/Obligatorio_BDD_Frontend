@@ -1,5 +1,5 @@
 import React from "react";
-import './AdminPage.css';
+import "./AdminPage.css";
 
 export default function AdminPage(props) {
   const users = props.users;
@@ -7,7 +7,9 @@ export default function AdminPage(props) {
 
   return (
     <div className="overflow-x-auto p-5">
-      <h2 className="text-lg font-semibold mb-4">Tabla de usuarios que no actualizaron</h2>
+      <h2 className="text-lg font-semibold mb-4">
+        Tabla de usuarios que no actualizaron
+      </h2>
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>

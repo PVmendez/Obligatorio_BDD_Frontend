@@ -5,6 +5,7 @@ import Modal from "react-modal";
 
 import "./CalendarComponent.css";
 import { createReserve, getReserves } from "../../services/reservesServices";
+import { getEmployee } from "../../services/userServices";
 
 const CalendarComponent = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -40,8 +41,9 @@ const CalendarComponent = () => {
 
   const handleReserveClick = () => {
     const username = localStorage.getItem("username");
-    const hasReserve = reserves.map((reserve) => username === reserve.logId);
-    if (!hasReserve) createReserve({ date: selectedDate, logId: username });
+    const employee = getEmployee(username);
+    const hasReserve = reserves.map((reserve) => employee.ci === reserve.ci);
+    if (!hasReserve) createReserve({ date: selectedDate, logId: employee.ci });
     else setError("Ya existe una reserva para este usuario.")
     setReservedDates([...reservedDates, selectedDate]);
     setSelectedDate(null);

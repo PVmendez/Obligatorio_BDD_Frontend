@@ -5,7 +5,7 @@
     width: 100%;
     text-align: center;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     padding: 10px;
   }
   
@@ -14,8 +14,15 @@
     text-decoration: none;
     padding: 10px 20px;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
   
   .navbar a:hover {
     background-color: #555;
+  }
+
+  .navbar a svg {
+    margin-left: 5px;
   }

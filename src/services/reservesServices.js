@@ -18,3 +18,13 @@ export const createReserve = async (body) => {
     throw error;
   }
 };
+
+export const getPeriod = async () => {
+  try {
+    const period = await api.get("/period");
+    return period.data;
+  } catch (error) {
+    console.error("Error al obtener el periodo de actualización.")
+    throw error;
+  }
+}
