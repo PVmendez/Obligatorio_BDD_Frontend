@@ -8,6 +8,7 @@ function Formulario() {
   const [users, setUsers] = useState([]);
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [fechaEmision, setFechaEmision] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
@@ -21,9 +22,16 @@ function Formulario() {
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text", pattern: "\\d*" },
     {
-      label: "Nombre Completo",
+      label: "Nombre",
       state: nombre,
       setState: setNombre,
+      type: "text",
+      pattern: "[A-Za-z ]*",
+    },
+    {
+      label: "Apellido",
+      state: apellido,
+      setState: setApellido,
       type: "text",
       pattern: "[A-Za-z ]*",
     },
@@ -79,12 +87,13 @@ function Formulario() {
     const allFieldsFilled =
       ci !== "" &&
       nombre !== "" &&
+      apellido !== "" &&
       fechaEmision !== "" &&
       fechaNacimiento !== "" &&
       (isChecked ? fechaVencimiento !== "" && comprobante !== "" && fechaEmision !== "" : true);
 
     setIsButtonDisabled(!allFieldsFilled);
-  }, [ci, nombre, fechaNacimiento, isChecked,fechaEmision, fechaVencimiento, comprobante]);
+  }, [ci, nombre, apellido, fechaNacimiento, isChecked,fechaEmision, fechaVencimiento, comprobante]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -5,14 +5,26 @@ import Login from "./components/Login/Login";
 import Logout from "./components/Logout/Logout";
 import Error404 from "./components/404/Error404";
 import Register from "./components/Register/Register";
+import Layout from "./components/Layout/Layout";
+import RequireAuth from "./components/RequireAuth/RequireAuth";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { isAuthenticated } from "./middleware/tokenVerification";
 import { useEffect, useState } from "react";
 import { getUserTable, sendMail } from "./services/userServices";
 import AltaFuncionario from "./components/AltaFuncionario/AltaFuncionario";
+import useAuth from "./hooks/useAuth";
+
+const ROLES = {
+  'User': 2001,
+  'Admin': 5150
+}
 
 function App() {
   const [users, setUsers] = useState([]);
+
+  const { setAuth, auth } = useAuth();
+
+console.log(auth);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -44,35 +56,30 @@ function App() {
     const oneDayInMillis = 24 * 60 * 60 * 1000;
     return currentDate - lastDate >= oneDayInMillis;
   };
-
   return (
     <div className="App">
       <Logout></Logout>
-      <BrowserRouter>
         <Routes>
-          <Route
-            path="/"
-            element={
-              isAuthenticated() ? <AdminPage users={users} /> : <Navigate to="/login" />
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/formulario"
-            element={
-              isAuthenticated() ? <Formulario /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="/alta-funcionario"
-            element={
-              isAuthenticated() ? <AltaFuncionario /> : <Navigate to="/login" />
-            }
-          />
-          <Route path="*" element={<Error404 />} />
+        <Route path="/" element={<Layout />}>
+          <Route element={<RequireAuth auth={auth} allowedRoles={[ROLES.User]} />}>
+              <Route path="/admin"
+              element={AdminPage} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/formulario"
+              element={
+                isAuthenticated() ? <Formulario /> : <Navigate to="/login" />
+              }
+            />
+            <Route element={<RequireAuth auth={auth} allowedRoles={[ROLES.User]} />}>
+              <Route path="/alta-funcionario"
+              element={AltaFuncionario} />
+            </Route>
+            <Route path="*" element={<Error404 />} />
+          </Route>
         </Routes>
-      </BrowserRouter>
     </div>
   );
 }

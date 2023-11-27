@@ -2,15 +2,22 @@ import React, { useState } from "react";
 import "./Login.css";
 import { login } from "../../services/loginServices";
 import { getUsers } from "../../services/userServices";
+import useAuth from "../../hooks/useAuth";
+import { useContext } from "react";
+import AuthContext from "../../context/AuthProvider";
 
 const Login = () => {
+  
+  const { auth, setAuth } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
     try {
-      await login(username, password);
+      const authUser = await login(username, password);
+      setAuth(authUser);
+      console.log(authUser);
       const users = await getUsers();
       
       const userFound = users.find((user) => {
