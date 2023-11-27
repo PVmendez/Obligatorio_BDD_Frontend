@@ -10,6 +10,16 @@ export const getUsers = async () => {
   }
 };
 
+export const getEmployee = async (logId) => {
+  try {
+    const users = await api.get(`/employee/${logId}`);
+    return users.data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    throw error;
+  }
+};
+
 export const getUserTable = async () => {
   try {
     const users = await api.get("/user-table");
@@ -20,7 +30,7 @@ export const getUserTable = async () => {
   }
 };
 
-export const createUser = async (body) => {
+export const updateUser = async (body) => {
   try {
     await api.post("/users", body);
   } catch (error) {

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./Formulario.css";
-import { createUser, getUsers } from "../../services/userServices";
+import { updateUser, getUsers } from "../../services/userServices";
 import Modal from "react-modal";
 import CalendarComponent from "../Calendar/CalendarComponent";
+import { convertDates } from "../../utils/convertDates";
 
 function Formulario() {
   const [users, setUsers] = useState([]);
   const [ci, setCi] = useState("");
   const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [fechaEmision, setFechaEmision] = useState("");
   const [fechaVencimiento, setFechaVencimiento] = useState("");
@@ -15,15 +17,23 @@ function Formulario() {
   const [isChecked, setIsChecked] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [error, setError] = useState("");
 
   const storedUsername = localStorage.getItem("username");
 
   const campos = [
     { label: "CI", state: ci, setState: setCi, type: "text", pattern: "\\d*" },
     {
-      label: "Nombre Completo",
+      label: "Nombre",
       state: nombre,
       setState: setNombre,
+      type: "text",
+      pattern: "[A-Za-z ]*",
+    },
+    {
+      label: "Apellido",
+      state: apellido,
+      setState: setApellido,
       type: "text",
       pattern: "[A-Za-z ]*",
     },
@@ -97,15 +107,23 @@ function Formulario() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const foundUser = users.find((user) => {
-      return user.Ci.toString() === ci;
-    });
+    const foundUser = users.find((user) => user.LogId === storedUsername);
+    const userConditions =
+      foundUser.Nombre.toLowerCase() === nombre.toLowerCase() &&
+      foundUser.Apellido.toLowerCase() === apellido.toLowerCase() &&
+      convertDates(foundUser.Fch_Nacimiento) ===
+        fechaNacimiento;
+    if (!userConditions)
+      return setError(
+        "La información ingresada no coincide con el funcionario de este usuario. Intente nuevamente."
+      );
+    else setError("");
 
     if (!isChecked && foundUser) setModalIsOpen(true);
     else {
       if (!foundUser)
         window.location.replace("http://localhost:3000/alta-funcionario");
-      else await createUser(foundUser);
+      else await updateUser(foundUser);
     }
   };
 
@@ -113,9 +131,17 @@ function Formulario() {
     setIsChecked(!isChecked);
   };
 
+  const errorStyle = {
+    color: "red",
+    display: "flex",
+    justifyContent: "center",
+    textAlign: "center",
+  };
+
   return (
     <div className="container">
       <h2>Bienvenido/a {storedUsername}, actualiza tus datos.</h2>
+      {error && <p style={errorStyle}>{error}</p>}
       <form onSubmit={handleSubmit}>
         {campos
           .filter(
@@ -181,7 +207,7 @@ function Formulario() {
         contentLabel="Detalles y Reserva"
         appElement={document.getElementById("root")}
       >
-        <CalendarComponent />
+        <CalendarComponent ci={ci} />
       </Modal>
     </div>
   );
