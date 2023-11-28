@@ -66,10 +66,20 @@ const Register = () => {
             onChange={(e) => setSecondPassword(e.target.value)}
           />
         </label>
-        <br />
         <button className="button" type="button" onClick={handleRegister}>
           Registrarse
         </button>
+        <a
+          href="/login"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "15px",
+            color: "#008AFF",
+          }}
+        >
+          ¿Ya tienes cuenta? Inicia sesión.
+        </a>
       </form>
       {error && <p style={errorStyle}>{error}</p>}
     </div>

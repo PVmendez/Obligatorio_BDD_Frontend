@@ -1,28 +1,17 @@
 import "./Actualizado.css";
-import { getUser, getUserUpdated } from "../../services/userServices";
-import { useEffect, useState } from "react";
 
 function Actualizado() {
-    const [user,setUser] = useState([]);
-    const storedUsername = localStorage.getItem("username");
-    useEffect(() => {
-        const fetchUsers = async () => {
-          try {
-            const userData = await getUserUpdated(storedUsername);
-            setUser(userData);
-          } catch (error) {
-            console.error("Error al obtener los usuarios:", error);
-          }
-        };
-    
-        fetchUsers();
-      }, []);
-    
-    return(
-        
-        <div>
-            <h2>Tus datos ya han sido actualizados {storedUsername || ""} </h2>
-        </div>
-);      
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="bg-white p-8 rounded shadow-md">
+        <h2 className="text-3xl font-semibold mb-4">
+          ¡Gracias por actualizar tus datos!
+        </h2>
+        <p className="flex justify-center text-gray-600">
+          Tu información ha sido actualizada con éxito.
+        </p>
+      </div>
+    </div>
+  );
 }
 export default Actualizado;
