@@ -1,0 +1,12 @@
+.main-container {
+  margin-left: 17%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.title {
+    margin-bottom: 15px !important;
+}

@@ -1,0 +1,60 @@
+.main-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-container h2 {
+    margin: 5px;
+}
+
+.ReactModal__Content {
+    height: 50%;
+    width: 50%;
+    position: relative !important;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    overflow: visible !important;
+    background: transparent;
+}
+
+.ReactModal__Overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border: solid black 1px;
+    margin: 5px;
+    padding: 5px;
+}
+
+.reserve-btn:hover {
+    background: #008BFF;
+}
+
+.reserve-btn:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.reserve-btn:disabled:hover {
+    background: #fff;
+}
+
+.close-btn:hover {
+    background: #C70039;
+}
+
+.custom-calendar {
+    border: 1px solid black;
+}
+
+h2 {
+    margin: 15px;
+}
