@@ -6,10 +6,10 @@ export default function AdminPage(props) {
   const columns = Object.keys(users[0] || {});
 
   return (
-    <div className="overflow-x-auto p-5">
-      <h2 className="text-lg font-semibold mb-4">
+    <div className="main-container overflow-x-auto p-5">
+      <h1 className="title text-lg font-semibold mb-5">
         Tabla de usuarios que no actualizaron
-      </h2>
+      </h1>
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>

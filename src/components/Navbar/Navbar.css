@@ -1,28 +1,32 @@
-.navbar {
-    background-color: #333;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-  }
-  
-  .navbar a {
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-  
-  .navbar a:hover {
-    background-color: #555;
-  }
+.sidebar {
+  background-color: #333;
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: space-between;
+  padding: 10px;
+}
 
-  .navbar a svg {
-    margin-left: 5px;
-  }
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 15px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.sidebar a:hover {
+  background-color: #555;
+}
+
+.sidebar a svg {
+  margin-right: 10px;
+}

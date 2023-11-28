@@ -25,6 +25,16 @@ export const getLogins = async () => {
   }
 };
 
+export const getUser = async (logId) => {
+  try {
+    const users = await api.get(`/user/${logId}`);
+    return users.data;
+  } catch (error) {
+    console.error("Error al obtener los usuarios:", error);
+    throw error;
+  }
+};
+
 export const register = async (username, password) => {
   try {
     const body = {

@@ -13,7 +13,6 @@ const Login = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-
     const fetchUsers = async () => {
       try {
         const updatePeriod = await getPeriod();
@@ -21,7 +20,9 @@ const Login = () => {
         Swal.fire({
           icon: "warning",
           title: "Aviso",
-          text: `Todos los funcionarios tienen la obligación de completar el formulario de actualizacion hasta el ${convertDates(updatePeriod[0].Fch_Fin)}`,
+          text: `Todos los funcionarios tienen la obligación de completar el formulario de actualizacion hasta el ${convertDates(
+            updatePeriod[0].Fch_Fin
+          )}`,
           confirmButtonText: "Entendido",
         });
       } catch (error) {
@@ -29,15 +30,13 @@ const Login = () => {
       }
     };
     fetchUsers();
-
-    
-  }, [])
+  }, []);
 
   const handleLogin = async () => {
     try {
       await login(username, password);
       const users = await getUsers();
-      
+
       const userFound = users.find((user) => {
         return user.logId ? user.LogId.toString() === username : false;
       });
@@ -82,7 +81,6 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <br />
         <button className="button" type="button" onClick={handleLogin}>
           Iniciar sesión
         </button>
